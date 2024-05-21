@@ -3,6 +3,7 @@
 This repo demonstrates the execution time of the following command on the Github Action's `macos-14` runners:
 
 ```
+# The following should be almost instant, but it takes 5+ seconds on the macos-14 github action runners!
 firefox --headless --screenshot /tmp/foo.png about:blank
 ```
 
