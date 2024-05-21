@@ -1,0 +1,24 @@
+name: "reproducible"
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-14, macos-14-large, macos-14-xlarge]
+        firefox: ['latest-nightly', 'latest' ]
+    name: ${{ matrix.os }} + Firefox ${{ matrix.firefox }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup firefox
+        id: setup-firefox
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: ${{ matrix.firefox }}
+      - name: Measure screenshot time
+        run: |
+          ${{ steps.setup-firefox.outputs.firefox-path }} --version
+          time ${{ steps.setup-firefox.outputs.firefox-path }} --headless --screenshot /tmp/${{ matrix.firefox }}-${{ matrix.os }}.png about:blank
